@@ -24,3 +24,10 @@ comandos_git = [
 print("Estos son los comandos más importantes de Git:")
 for comando in comandos_git:
     print(comando)
+ 
+# Agregar un nuevo comando a la lista
+comandos_git.append("git stash")
+
+print("Nuevos items:")
+for comando in comandos_git:
+    print(comando)
