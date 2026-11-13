@@ -2,7 +2,7 @@
 from abc import ABC, abstractmethod
 
 class Entidad(ABC):
-    """Representa cualquier entidad general del sistema (cliente, servicio, etc.)."""
+    """Representa cualquier entidad general del sistema cliente, servicio, etc...."""
 
     def __init__(self, id_entidad):
         self._id = id_entidad
