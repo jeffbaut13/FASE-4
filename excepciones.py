@@ -16,20 +16,20 @@ class ServicioInvalidoError(SoftwareFJError):
 
 
 class ServicioNoDisponibleError(SoftwareFJError):
-    """El servicio solicitado no está disponible."""
+    """Indica que se intentó usar un servicio marcado como no disponible."""
     pass
 
 
 class ReservaInvalidaError(SoftwareFJError):
-    """Intento de reserva incorrecto o con datos inconsistentes."""
+    """Indica que una reserva tiene datos incompletos o incompatibles."""
     pass
 
 
 class OperacionNoPermitidaError(SoftwareFJError):
-    """Operación no permitida en el estado actual (ej. cancelar una reserva ya cancelada)."""
+    """Indica que una acción no corresponde al estado actual del objeto."""
     pass
 
 
 class CalculoInconsistenteError(SoftwareFJError):
-    """Error en cálculos de costos, impuestos o descuentos."""
+    """Indica que no se puede realizar un cálculo con los valores recibidos."""
     pass
