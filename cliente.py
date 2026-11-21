@@ -72,10 +72,12 @@ class Cliente(Entidad):
 
     @property
     def documento(self):
+        """Devuelve el documento guardado como texto."""
         return self.__documento
 
     @documento.setter
     def documento(self, valor):
+        """Comprueba que el documento tenga entre 6 y 12 dígitos."""
         if valor is None:
             raise ClienteInvalidoError("El documento es obligatorio")
         valor = str(valor).strip()
@@ -87,10 +89,12 @@ class Cliente(Entidad):
 
     @property
     def correo(self):
+        """Devuelve la dirección de correo en minúsculas."""
         return self.__correo
 
     @correo.setter
     def correo(self, valor):
+        """Valida el formato del correo antes de guardarlo."""
         if valor is None or not isinstance(valor, str):
             raise ClienteInvalidoError("El correo es obligatorio y debe ser texto")
         valor = valor.strip().lower()
