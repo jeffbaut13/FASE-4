@@ -13,12 +13,14 @@ class Entidad(ABC):
 
     @property
     def id(self):
+        """Devuelve el identificador de esta entidad."""
         return self._id
 
     @abstractmethod
     def describir(self):
-        """Devuelve una descripción de la entidad. Cada subclase la implementa."""
+        """Define la descripción que debe implementar cada clase hija."""
         pass
 
     def __str__(self):
+        """Usa la descripción para mostrar la entidad como texto."""
         return self.describir()
