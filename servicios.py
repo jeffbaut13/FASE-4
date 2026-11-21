@@ -43,23 +43,25 @@ class Servicio(Entidad):
         self.__disponible = bool(disponible)
         logger.info(f"Servicio base inicializado: ID {self.id} - {self.__nombre}")
 
-    @property #antes de ejecutar el codigo este hace una validacion de que es correcto
+    @property
     def nombre(self):
-        """Devolver nombre de servicio"""
-        return self.__nombre #retorna el nombre
+        """Devuelve el nombre del servicio; solo se puede consultar."""
+        return self.__nombre
+
     @property
     def tarifa_hora(self):
-        """Devolver tarifa por hora"""
-        return self.__tarifa_hora #retorna la tarifa
+        """Devuelve la tarifa por una hora de servicio."""
+        return self.__tarifa_hora
+
     @property
     def disponible(self):
-        """Indica si esta disponible el servicio"""
-        return self.__disponible #de numero a disponible
+        """Indica si el servicio puede reservarse."""
+        return self.__disponible
     
     @disponible.setter
     def disponible(self, valor):
-        """Disponibilidad Actual del servicio"""
-        self.__disponible = bool(valor) #actualiza la disponibilidad del servicio
+        """Actualiza el estado de disponibilidad y lo convierte a booleano."""
+        self.__disponible = bool(valor)
         
     def calcular_costo(self,horas, impuesto=0.19, descuento=0.0):
         """Calcular el costo total con los parametros opcionales, como el iva"""
@@ -171,7 +173,6 @@ if __name__ == "__main__":
         ServicioInvalido = Asesoria("Mala", -5000, "Redes")
     except ServicioInvalidoError as e: 
         print ("Alarma funciono:", e)   
-
 
 
 
