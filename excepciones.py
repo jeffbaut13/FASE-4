@@ -1,18 +1,17 @@
-######funcion de este archivo: concentrar todos los errores personalizados del sistema en un solo lugar.
-"""Excepciones personalizadas del sistema Software FJ."""
+"""Reúne las excepciones propias para informar errores del sistema."""
 
 class SoftwareFJError(Exception):
-    """Excepción base de todo el sistema."""
+    """Error general del que heredan las excepciones de Software FJ."""
     pass
 
 
 class ClienteInvalidoError(SoftwareFJError):
-    """Datos inválidos o faltantes de un cliente."""
+    """Indica que falta un dato del cliente o que no cumple su formato."""
     pass
 
 
 class ServicioInvalidoError(SoftwareFJError):
-    """Parámetros inválidos al crear o configurar un servicio."""
+    """Indica que un servicio recibió datos de creación no válidos."""
     pass
 
 
