@@ -10,13 +10,16 @@ print("Iniciando proceso...")
 print("Cargando datos...")
 print("Proceso finalizado con éxito.")
 
+# Estos mensajes registran las tareas que se agregaron durante el trabajo grupal.
 print("Se agrega a Fabian Andres al proyecto en su propia rama")
 print("Se agrega a Alejandro Reyes al proyecto con su propia rama")
 
+# También se deja constancia del aviso enviado al foro del equipo.
 print(
     "se notifica a Alejandro al foro que ya debio haber recibido la invitacion a"
     " colaborar al repo"
 )
+# Los siguientes mensajes representan la creación de archivos del proyecto.
 print("se crea el archivo que manejara la excepciones")
 print("se crea el archivo que almacenara la clase cliente ")
 print("se crea el archivo que logger.py")
