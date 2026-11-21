@@ -2,6 +2,12 @@
 import logging
 
 def configurar_logger(nombre_archivo="logs.txt"):
+    """Prepara el registrador del sistema y lo devuelve.
+
+    ``nombre_archivo`` indica dónde guardar los mensajes. El nivel INFO permite
+    registrar información general, advertencias y errores.
+    """
+    # Se reutiliza un único registrador para los módulos de Software FJ.
     logger = logging.getLogger("SoftwareFJ")
     logger.setLevel(logging.INFO)
 
