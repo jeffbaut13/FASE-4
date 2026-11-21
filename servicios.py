@@ -63,27 +63,32 @@ class Servicio(Entidad):
         """Actualiza el estado de disponibilidad y lo convierte a booleano."""
         self.__disponible = bool(valor)
         
-    def calcular_costo(self,horas, impuesto=0.19, descuento=0.0):
-        """Calcular el costo total con los parametros opcionales, como el iva"""
-        #hora positiva
+    def calcular_costo(self, horas, impuesto=0.19, descuento=0.0):
+        """Calcula el costo final usando horas, impuesto y descuento.
+
+        ``impuesto`` y ``descuento`` se expresan como proporciones: por ejemplo,
+        ``0.19`` representa el 19 %. El resultado se redondea a un decimal.
+        """
         if not isinstance(horas, (int, float)) or horas <= 0:
             logger.error(f"Horas invalidas ({horas}) calculo del costo")
             raise CalculoInconsistenteError("La hora debe ser mayor a cero")
 
+        # Se evita aplicar un impuesto negativo o un descuento fuera del rango 0-1.
         if impuesto < 0 or descuento < 0 or descuento > 1:
             logger.error(f"Impuesto ({impuesto}) o descuento ({descuento}) invalido en calculo del costo")
             raise CalculoInconsistenteError("Impuesto o descuento invalido")
 
-        # lo mas sencillo, los totales
+        # Primero se calcula el precio por horas y luego se aplica el descuento.
         subtotal = self.__tarifa_hora * horas
         valor_descuento = subtotal * descuento
         base_gravable = subtotal - valor_descuento
+        # El impuesto se suma después del descuento y antes del redondeo final.
         total = base_gravable * (1 + impuesto)
         return round(total, 1)
 
     @abstractmethod
     def describir(self):
-        """Metodo obligatorio"""
+        """Obliga a cada servicio especializado a construir su descripción."""
         pass 
 class AlquilerEquipo(Servicio):
     """Servicio especializado"""
@@ -173,7 +178,6 @@ if __name__ == "__main__":
         ServicioInvalido = Asesoria("Mala", -5000, "Redes")
     except ServicioInvalidoError as e: 
         print ("Alarma funciono:", e)   
-
 
 
 
