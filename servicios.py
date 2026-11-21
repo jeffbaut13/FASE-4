@@ -116,33 +116,30 @@ class AlquilerEquipo(Servicio):
             f"Tipo: {self.__tipo_equipo} | Tarifa: ${self.tarifa_hora:.1f}/h |  {estado}"
         )
 class ReservaSala(Servicio):
-    """Servicio especializado"""
-    def __init__(self, nombre, tarifa_hora, capacidad, disponible=True):
-        """Iniciación de sala (según capacidad)"""
-        super().__init__(nombre, tarifa_hora, disponible)
-        #llamamos a la clase padre
+    """Servicio que permite reservar una sala con capacidad definida."""
 
-        #validamos que la capacidad sea un numero entero positivo
+    def __init__(self, nombre, tarifa_hora, capacidad, disponible=True):
+        """Crea una sala y exige que su capacidad sea un entero positivo."""
+        super().__init__(nombre, tarifa_hora, disponible)
         if not isinstance(capacidad, int) or capacidad <= 0:
-            logger.error(f"Capacidad invalidad ({capacidad}) al crear la sala.") 
+            logger.error(f"Capacidad invalidad ({capacidad}) al crear la sala.")
             raise ServicioInvalidoError("La capacidad deber ser un numero entero mayor a cero.")
-        self.__capacidad = capacidad #la guarda
+        # Se conserva la cantidad máxima de personas que pueden usar la sala.
+        self.__capacidad = capacidad
         logger.info(f"ReservaSala creada: {self.nombre} (Capacidad: {self.__capacidad} personas)")
 
-
-    #exactamente igual que la otra clase
     @property
     def capacidad(self):
-        """Devuelve la capacidad maxima de la sala (Lectura)"""
+        """Devuelve el máximo de personas admitidas en la sala."""
         return self.__capacidad
 
     def describir(self):
-        """Descripcion de sala reservada"""
+        """Devuelve la capacidad, la tarifa y el estado actual de la sala."""
         estado = "Disponible" if self.disponible else "No disponible"
         return (
             f"Servicio #{self.id} [Sala]: {self.nombre}  |  "
             f"Capacidad: {self.__capacidad} Pers.  |  Tarifa: ${self.tarifa_hora:.1f}/h | {estado}"
-        ) #nuevamente esto retorna la descripcion de la sala 
+        )
 
 class Asesoria(Servicio):
     """Servicio especializado en asesorias."""
@@ -182,7 +179,6 @@ if __name__ == "__main__":
         ServicioInvalido = Asesoria("Mala", -5000, "Redes")
     except ServicioInvalidoError as e: 
         print ("Alarma funciono:", e)   
-
 
 
 
