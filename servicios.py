@@ -143,43 +143,48 @@ class ReservaSala(Servicio):
 
 class Asesoria(Servicio):
     """Servicio especializado en asesorias."""
+
     def __init__(self, nombre, tarifa_hora, especialidad, disponible=True):
+        """Crea una asesoría y valida que tenga una especialidad indicada."""
         super().__init__(nombre, tarifa_hora, disponible)
 
         if not isinstance(especialidad, str) or not especialidad.strip():
             logger.error(f"Especialidad invalida ({especialidad} al crear la asesoria.)")
             raise ServicioInvalidoError("La especialidad no puede estar vacia.")
-        self.__especialidad = especialidad.strip() 
+        self.__especialidad = especialidad.strip()
         logger.info(f"Asesoria creada: {self.nombre} (Area: {self.__especialidad})")
 
     @property
     def especialidad(self):
-        """Devuelve la especialidad 
-        (lectura)"""
+        """Devuelve el área de conocimiento de la asesoría."""
         return self.__especialidad
 
     def describir(self):
+        """Devuelve el área, la tarifa y la disponibilidad de la asesoría."""
         estado = "Disponible" if self.disponible else "No disponible"
         return (
             f"Servicio #{self.id} [Asesoria]: {self.nombre}  |  Area: {self.__especialidad}  |  Tarifa: ${self.tarifa_hora:.1f}/h  |  {estado}"
         )
 
+
 if __name__ == "__main__":
+    # Estos objetos de ejemplo muestran cómo se crean los servicios disponibles.
     sala = ReservaSala("Sala Juntas A", 5000, 10)
     equipo = AlquilerEquipo("Portatil Dell", 20000, "Laptop")
     asesoria = Asesoria("Consultoria Cloud", 80000, "AWS")
 
+    # Se imprimen las descripciones y se calculan costos de ejemplo.
     print (sala.describir())
     print ("Costo sala (2h con IVA):", sala.calcular_costo(2))
     print(equipo.describir())
     print("Costo equipo (3h con 10% desc):", equipo.calcular_costo(3, descuento=0.10))
     print(asesoria.describir())
 
+    # Se comprueba que una tarifa inválida se reporte como excepción propia.
     try:
         ServicioInvalido = Asesoria("Mala", -5000, "Redes")
     except ServicioInvalidoError as e: 
         print ("Alarma funciono:", e)   
-
 
 
 
