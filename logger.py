@@ -22,4 +22,5 @@ def configurar_logger(nombre_archivo="logs.txt"):
         manejador.setFormatter(formato)
         logger.addHandler(manejador)
 
+    # Se devuelve para que los demás módulos registren sus propios eventos.
     return logger
