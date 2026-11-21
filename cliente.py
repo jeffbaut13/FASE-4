@@ -1,4 +1,4 @@
-"""Clase Cliente del sistema Software FJ."""
+"""Define la clase Cliente y las reglas para registrar sus datos personales."""
 import re
 import logging
 
@@ -9,16 +9,23 @@ logger = logging.getLogger("SoftwareFJ")
 
 
 class Cliente(Entidad):
-    """Representa a un cliente de Software FJ.
+    """Representa a una persona registrada en el sistema Software FJ.
 
-    Los datos personales son privados y solo se
-    acceden o modifican mediante propiedades con validación estricta.
+    Sus datos se guardan como atributos privados y se validan mediante
+    propiedades para evitar registrar valores con formatos incorrectos.
     """
 
-    _contador_id = 0  # Genera identificadores únicos automáticamente
+    # Este contador compartido asigna un número consecutivo a cada cliente.
+    _contador_id = 0
 
     def __init__(self, nombre, documento, correo, telefono):
+        """Crea un cliente, valida sus datos y le asigna un identificador.
+
+        Los parámetros son los datos personales que se guardarán en el objeto.
+        Si alguna validación falla, se registra el error y no se completa el alta.
+        """
         try:
+            # Se inicializan los atributos antes de usar sus propiedades validadoras.
             self.__nombre = None
             self.__documento = None
             self.__correo = None
@@ -37,20 +44,23 @@ class Cliente(Entidad):
         Cliente._contador_id += 1
         self.__id_cliente = Cliente._contador_id
         super().__init__(self.__id_cliente)
-        self.__reservas = []  # Lista interna de reservas del cliente
+        # Cada cliente mantiene su propia lista de reservas asociadas.
+        self.__reservas = []
         logger.info("Cliente creado: ID %s - %s", self.__id_cliente, self.__nombre)
 
-    # ########Propiedades###########
     @property
     def id_cliente(self):
+        """Devuelve el identificador consecutivo del cliente."""
         return self.__id_cliente
 
     @property
     def nombre(self):
+        """Devuelve el nombre que ya fue validado al guardarse."""
         return self.__nombre
 
     @nombre.setter
     def nombre(self, valor):
+        """Valida el nombre y lo guarda con formato de título."""
         if valor is None or not isinstance(valor, str):
             raise ClienteInvalidoError("El nombre es obligatorio y debe ser texto")
         valor = valor.strip()
