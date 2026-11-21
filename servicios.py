@@ -122,15 +122,48 @@ class ReservaSala(Servicio):
         """Descripcion de sala reservada"""
         estado = "Disponible" if self.disponible else "No disponible"
         return (
-            f"Servicio #{self.id} [Sala]: {self.nombre} | "
+            f"Servicio #{self.id} [Sala]: {self.nombre}  |  "
             f"Capacidad: {self.__capacidad} Pers.  |  Tarifa: ${self.tarifa_hora:.1f}/h | {estado}"
         ) #nuevamente esto retorna la descripcion de la sala 
 
-    
+class Asesoria(Servicio):
+    """Servicio especializado en asesorias."""
+    def __init__(self, nombre, tarifa_hora, especialidad, disponible=True):
+        super().__init__(nombre, tarifa_hora, disponible)
 
+        if not isinstance(especialidad, str) or not especialidad.strip():
+            logger.error(f"Especialidad invalida ({especialidad} al crear la asesoria.)")
+            raise ServicioInvalidoError("La especialidad no puede estar vacia.")
+        self.__especialidad = especialidad.strip() 
+        logger.info(f"Asesoria creada: {self.nombre} (Area: {self.__especialidad})")
 
+    @property
+    def especialidad(self):
+        """Devuelve la especialidad 
+        (lectura)"""
+        return self.__especialidad
 
+    def describir(self):
+        estado = "Disponible" if self.disponible else "No disponible"
+        return (
+            f"Servicio #{self.id} [Asesoria]: {self.nombre}  |  Area: {self.__especialidad}  |  Tarifa: ${self.tarifa_hora:.1f}/h  |  {estado}"
+        )
 
+if __name__ == "__main__":
+    sala = ReservaSala("Sala Juntas A", 5000, 10)
+    equipo = AlquilerEquipo("Portatil Dell", 20000, "Laptop")
+    asesoria = Asesoria("Consultoria Cloud", 80000, "AWS")
+
+    print (sala.describir())
+    print ("Costo sala (2h con IVA):", sala.calcular_costo(2))
+    print(equipo.describir())
+    print("Costo equipo (3h con 10% desc):", equipo.calcular_costo(3, descuento=0.10))
+    print(asesoria.describir())
+
+    try:
+        ServicioInvalido = Asesoria("Mala", -5000, "Redes")
+    except ServicioInvalidoError as e: 
+        print ("Alarma funciono:", e)   
 
 
 
