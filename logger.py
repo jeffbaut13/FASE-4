@@ -11,9 +11,11 @@ def configurar_logger(nombre_archivo="logs.txt"):
     logger = logging.getLogger("SoftwareFJ")
     logger.setLevel(logging.INFO)
 
-    ##### Evita duplicar si se llama más de una vez#####
+    # Se crea un manejador solo una vez para no repetir mensajes en el archivo.
     if not logger.handlers:
+        # El archivo se abre con UTF-8 para conservar correctamente los acentos.
         manejador = logging.FileHandler(nombre_archivo, encoding="utf-8")
+        # Cada línea incluye fecha, nivel, nombre del registrador y mensaje.
         formato = logging.Formatter(
             "%(asctime)s | %(levelname)s | %(name)s | %(message)s"
         )
