@@ -2,9 +2,13 @@
 from abc import ABC, abstractmethod
 
 class Entidad(ABC):
-    """Representa cualquier entidad general del sistema cliente, servicio, etc...."""
+    """Clase común para objetos del sistema que tienen un identificador.
+
+    Es abstracta porque cada entidad concreta debe definir cómo describirse.
+    """
 
     def __init__(self, id_entidad):
+        """Guarda el identificador que recibe la entidad hija."""
         self._id = id_entidad
 
     @property
