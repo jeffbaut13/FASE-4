@@ -26,10 +26,11 @@ print("se crea el archivo que logger.py")
 print("se crea el archivo main.py")
 print("se crea el archivo entidad.py")
 
-# Registro de ramas
+# La lista muestra los nombres de las ramas usadas en el proyecto.
 ramas_equipo = ["main", "develop", "feature/fabian", "feature/alejandro"]
 print(f"Ramas activas en el repositorio: {len(ramas_equipo)}")
 
+# Esta lista reúne los comandos de Git que se mostrarán como ejemplo.
 comandos_git = [
     "git init",
     "git clone",
@@ -44,17 +45,19 @@ comandos_git = [
 ]
 
 print("Estos son los comandos más importantes de Git:")
+# enumerate agrega un número para presentar cada comando en orden.
 for i, comando in enumerate(comandos_git, start=1):
   print(f"{i}. {comando}")
 
-# --- Agregando comandos de historial ---
+# Se agregan comandos para consultar y guardar cambios e historial.
 comandos_git.append("git stash")
 comandos_git.append("git log")
 comandos_git.append("git diff")
 
 print("Nuevos items:")
+# Se recorre la lista actualizada para mostrar todos sus elementos.
 for comando in comandos_git:
   print(comando)
 
-# Validación rápida
+# Se verifica si el comando de historial está incluido en la lista.
 print("¿Existe git log?:", verificar_comando(comandos_git, "git log"))
