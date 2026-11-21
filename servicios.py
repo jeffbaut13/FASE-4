@@ -91,26 +91,30 @@ class Servicio(Entidad):
         """Obliga a cada servicio especializado a construir su descripción."""
         pass 
 class AlquilerEquipo(Servicio):
-    """Servicio especializado"""
+    """Servicio que permite alquilar un equipo identificado por su tipo."""
+
     def __init__(self, nombre, tarifa_hora, tipo_equipo, disponible=True):
+        """Crea un alquiler de equipo y valida la descripción del equipo."""
         super().__init__(nombre, tarifa_hora, disponible)
-    #tipo de equipo el texto no debe de estar vacio
+        # El tipo indica qué clase de equipo se está ofreciendo en alquiler.
         if not isinstance(tipo_equipo, str) or not tipo_equipo.strip():
             logger.error(f"Tipo de equipo invalido ({tipo_equipo}) al crear servicio")
-            raise ServicioInvalidoError("El tipo de equipo no puede estar vacio.")        
-        self.__tipo_equipo = tipo_equipo.strip() #guarda el ripo de equipo
+            raise ServicioInvalidoError("El tipo de equipo no puede estar vacio.")
+        self.__tipo_equipo = tipo_equipo.strip()
         logger.info(f"AlquilerEquipo creado: {self.nombre} (Equipo: {self.__tipo_equipo})")
-    @property 
+
+    @property
     def tipo_equipo(self):
-        """Devolver el tipo de equipo alquilado (lectura)"""
-        return self.__tipo_equipo #devuelve el equipo alquilado
+        """Devuelve el tipo de equipo que se ofrece en alquiler."""
+        return self.__tipo_equipo
+
     def describir(self):
-        """Descripcion del equipo alquilado"""
+        """Devuelve el equipo, su tarifa y su estado de disponibilidad."""
         estado = "Disponible" if self.disponible else "No disponible"
         return (
             f"Servicio #{self.id} [Equipo]: {self.nombre} | "
             f"Tipo: {self.__tipo_equipo} | Tarifa: ${self.tarifa_hora:.1f}/h |  {estado}"
-        ) #retorna la descripcion del equipo alquilado
+        )
 class ReservaSala(Servicio):
     """Servicio especializado"""
     def __init__(self, nombre, tarifa_hora, capacidad, disponible=True):
@@ -178,7 +182,6 @@ if __name__ == "__main__":
         ServicioInvalido = Asesoria("Mala", -5000, "Redes")
     except ServicioInvalidoError as e: 
         print ("Alarma funciono:", e)   
-
 
 
 
