@@ -1,26 +1,34 @@
-"""Servicios especializados para Software FJ."""
-import logging #vamos a importar la libreria para registrar eventos y errores
-from abc import abstractmethod # Sirve para crear las clases con reglas especificas
-from entidad import Entidad #traemos el archivo que creo Fabian
-from excepciones import ServicioInvalidoError, CalculoInconsistenteError #traemos el archivo que creo Fabian y traigo las clases
+"""Define la clase base de los servicios y sus tipos especializados."""
+import logging
+from abc import abstractmethod
+from entidad import Entidad
+from excepciones import ServicioInvalidoError, CalculoInconsistenteError
 
 
-#vamos con un logger con el nombre de la empresa 
+# El mismo registrador permite consultar los eventos de todos los servicios.
 logger = logging.getLogger("SoftwareFJ")
 
 
 class Servicio(Entidad):
-    """Clase abstracta base para todos los servicios"""
+    """Clase base con los datos y operaciones comunes de cada servicio.
 
-    _contador_id = 0 # Contador para asignar identificadores de cada servicio
+    Las clases hijas deben definir su propia forma de describirse.
+    """
+
+    # Lleva la cuenta de los servicios para asignar identificadores consecutivos.
+    _contador_id = 0
 
     def __init__(self, nombre, tarifa_hora, disponible=True):
+        """Valida los datos básicos y prepara un nuevo servicio.
 
-        """Parámetros básicos"""
-        Servicio._contador_id +=1 #incrementa el contador de los servicios
-        super().__init__(Servicio._contador_id) 
+        ``nombre`` identifica el servicio, ``tarifa_hora`` es su precio por hora
+        y ``disponible`` indica si se puede reservar en este momento.
+        """
 
-        #validamos que el nombre sea letras, y eliminamos los espacios al principio y al final
+        Servicio._contador_id += 1
+        super().__init__(Servicio._contador_id)
+
+        # El nombre debe tener texto y se guarda sin espacios en los extremos.
         if not isinstance(nombre, str) or not nombre.strip():
             logger.error("Fallo al crear servicio: nombre invalido.")
             raise ServicioInvalidoError("El nombre del servicio no puede estar vacio.")
@@ -29,12 +37,11 @@ class Servicio(Entidad):
             logger.error(f"Fallo al crear '{nombre}': Tarifa invalida ({tarifa_hora})")
             raise ServicioInvalidoError("La tarifa debe ser mayor a cero")
 
-
-
-        self.__nombre = nombre.strip() #guarda el nombre como privado
-        self.__tarifa_hora = float (tarifa_hora)#guarda la tarifa como decimal privado
-        self.__disponible = bool (disponible) # Guarda el interruptor de disponibilidad del producto
-        logger.info(f"Servicio base inicializado: ID {self.id} - {self.__nombre}") #registra el inicio del servicio
+        # Los atributos privados guardan los valores ya validados y normalizados.
+        self.__nombre = nombre.strip()
+        self.__tarifa_hora = float(tarifa_hora)
+        self.__disponible = bool(disponible)
+        logger.info(f"Servicio base inicializado: ID {self.id} - {self.__nombre}")
 
     @property #antes de ejecutar el codigo este hace una validacion de que es correcto
     def nombre(self):
@@ -164,7 +171,6 @@ if __name__ == "__main__":
         ServicioInvalido = Asesoria("Mala", -5000, "Redes")
     except ServicioInvalidoError as e: 
         print ("Alarma funciono:", e)   
-
 
 
 
