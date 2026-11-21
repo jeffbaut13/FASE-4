@@ -104,10 +104,12 @@ class Cliente(Entidad):
 
     @property
     def telefono(self):
+        """Devuelve el teléfono guardado como una cadena de dígitos."""
         return self.__telefono
 
     @telefono.setter
     def telefono(self, valor):
+        """Valida que el teléfono tenga exactamente diez dígitos."""
         if valor is None:
             raise ClienteInvalidoError("El teléfono es obligatorio")
         valor = str(valor).strip().replace(" ", "")
@@ -115,19 +117,23 @@ class Cliente(Entidad):
             raise ClienteInvalidoError("El teléfono debe tener exactamente 10 dígitos")
         self.__telefono = valor
 
-    # Manejo de la lista interna de reservas 
     def agregar_reserva(self, reserva):
+        """Asocia una reserva al cliente después de comprobar que exista."""
         if reserva is None:
             raise ClienteInvalidoError("No se puede asociar una reserva nula")
         self.__reservas.append(reserva)
 
     def obtener_reservas(self):
-        return list(self.__reservas)  ###### Copia y protege la lista interna
+        """Devuelve una copia para que no se altere la lista interna."""
+        return list(self.__reservas)
 
-    # #####Creación segura (try/except/else/finally) ##########
     @classmethod
     def crear_seguro(cls, nombre, documento, correo, telefono):
-        """Intenta crear un cliente sin detener el programa si hay errores."""
+        """Intenta registrar un cliente y comunica el resultado.
+
+        Si los datos no son válidos, informa el error y devuelve ``None``.
+        Si el registro tiene éxito, devuelve el nuevo objeto Cliente.
+        """
         cliente = None
         try:
             cliente = cls(nombre, documento, correo, telefono)
@@ -140,10 +146,11 @@ class Cliente(Entidad):
             logger.info("Intento de registro de cliente finalizado")
         return cliente
 
-    # ######## Representaciones #########
     def describir(self):
+        """Construye un resumen legible con los datos del cliente."""
         return (f"Cliente #{self.__id_cliente} | {self.__nombre} | "
                 f"Doc: {self.__documento} | {self.__correo} | Tel: {self.__telefono}")
 
     def __repr__(self):
+        """Devuelve una representación breve para depuración."""
         return f"Cliente(id={self.__id_cliente}, nombre='{self.__nombre}')"
