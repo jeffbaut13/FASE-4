@@ -1,4 +1,8 @@
+"""Muestra ejemplos sencillos de funciones, listas y comandos de Git."""
+
+
 def verificar_comando(lista, cmd):
+  """Indica si el texto de un comando está presente en la lista recibida."""
   return cmd in lista
 
 
