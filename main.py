@@ -1,4 +1,8 @@
-"""Punto de entrada del sistema Software FJ."""
+"""Inicia una demostración del registro de clientes de Software FJ.
+
+La configuración del registrador se prepara al cargar este módulo para que
+los mensajes de la simulación queden guardados en el archivo de logs.
+"""
 from logger import configurar_logger
 from cliente import Cliente
 
