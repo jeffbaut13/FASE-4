@@ -10,8 +10,10 @@ logger = configurar_logger()
 
 
 def main():
+    """Ejecuta ejemplos de registro correcto e incorrecto de clientes."""
     logger.info("=== Inicio de la simulación ===")
 
+    # El primer ejemplo usa datos válidos y el segundo activa las validaciones.
     Cliente.crear_seguro("Juan Pérez", "1012345678", "juan@correo.com", "3001234567")  # válido
     Cliente.crear_seguro("", "abc", "correo-malo", "123")                               # inválido
 
@@ -19,4 +21,5 @@ def main():
 
 
 if __name__ == "__main__":
+    # Ejecuta la simulación solo cuando este archivo se inicia directamente.
     main()
