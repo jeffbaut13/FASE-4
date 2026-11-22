@@ -18,7 +18,7 @@ class Cliente(Entidad):
     # Este contador compartido asigna un número consecutivo a cada cliente.
     _contador_id = 0
 
-    def __init__(self, nombre, documento, correo, telefono):
+    def __init__(self, nombre=None, documento=None, correo=None, telefono=None):
         """Crea un cliente, valida sus datos y le asigna un identificador.
 
         Los parámetros son los datos personales que se guardarán en el objeto.
@@ -62,11 +62,14 @@ class Cliente(Entidad):
     def nombre(self, valor):
         """Valida el nombre y lo guarda con formato de título."""
         if valor is None or not isinstance(valor, str):
+            logger.error("Nombre de cliente invalido: se esperaba texto")
             raise ClienteInvalidoError("El nombre es obligatorio y debe ser texto")
         valor = valor.strip()
         if len(valor) < 3:
+            logger.error("Nombre de cliente demasiado corto: %s", valor)
             raise ClienteInvalidoError("El nombre debe tener al menos 3 caracteres")
         if not re.fullmatch(r"[A-Za-zÁÉÍÓÚáéíóúÑñÜü ]+", valor):
+            logger.error("Nombre de cliente con caracteres no permitidos: %s", valor)
             raise ClienteInvalidoError("El nombre solo puede contener letras y espacios")
         self.__nombre = valor.title()
 
@@ -79,9 +82,11 @@ class Cliente(Entidad):
     def documento(self, valor):
         """Comprueba que el documento tenga entre 6 y 12 dígitos."""
         if valor is None:
+            logger.error("Documento de cliente ausente")
             raise ClienteInvalidoError("El documento es obligatorio")
         valor = str(valor).strip()
         if not valor.isdigit() or not (6 <= len(valor) <= 12):
+            logger.error("Documento de cliente invalido: %s", valor)
             raise ClienteInvalidoError(
                 "El documento debe ser numérico y tener entre 6 y 12 dígitos"
             )
@@ -96,9 +101,11 @@ class Cliente(Entidad):
     def correo(self, valor):
         """Valida el formato del correo antes de guardarlo."""
         if valor is None or not isinstance(valor, str):
+            logger.error("Correo de cliente invalido: se esperaba texto")
             raise ClienteInvalidoError("El correo es obligatorio y debe ser texto")
         valor = valor.strip().lower()
         if not re.fullmatch(r"[\w\.\-]+@[\w\-]+(\.[\w\-]+)+", valor):
+            logger.error("Correo de cliente con formato invalido: %s", valor)
             raise ClienteInvalidoError(f"Formato de correo inválido: '{valor}'")
         self.__correo = valor
 
@@ -111,15 +118,18 @@ class Cliente(Entidad):
     def telefono(self, valor):
         """Valida que el teléfono tenga exactamente diez dígitos."""
         if valor is None:
+            logger.error("Telefono de cliente ausente")
             raise ClienteInvalidoError("El teléfono es obligatorio")
         valor = str(valor).strip().replace(" ", "")
         if not valor.isdigit() or len(valor) != 10:
+            logger.error("Telefono de cliente invalido: %s", valor)
             raise ClienteInvalidoError("El teléfono debe tener exactamente 10 dígitos")
         self.__telefono = valor
 
-    def agregar_reserva(self, reserva):
+    def agregar_reserva(self, reserva=None):
         """Asocia una reserva al cliente después de comprobar que exista."""
         if reserva is None:
+            logger.error("No se pudo asociar una reserva nula al cliente %s", self.__id_cliente)
             raise ClienteInvalidoError("No se puede asociar una reserva nula")
         self.__reservas.append(reserva)
 
@@ -128,7 +138,7 @@ class Cliente(Entidad):
         return list(self.__reservas)
 
     @classmethod
-    def crear_seguro(cls, nombre, documento, correo, telefono):
+    def crear_seguro(cls, nombre=None, documento=None, correo=None, telefono=None):
         """Intenta registrar un cliente y comunica el resultado.
 
         Si los datos no son válidos, informa el error y devuelve ``None``.
