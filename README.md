@@ -5,6 +5,13 @@ servicios y reservas mediante programación orientada a objetos. Los datos se
 mantienen en objetos y listas en memoria; no se utiliza una base de datos. El
 archivo `logs.txt` guarda los eventos y errores.
 
+## Integrantes
+
+- JEFERSSON ANDRES BAUTISTA VEGA
+- ANGEL SEBASTIAN ROMERO BUITRAGO
+- LUIS ALEJANDRO REYES DIAZ
+- FABIAN ANDRES BOLANO ALEAN
+
 ## Requisitos del ejercicio
 
 - `Entidad` es la clase abstracta que comparte el identificador y la descripción
@@ -38,7 +45,8 @@ archivo `logs.txt` guarda los eventos y errores.
 
 ## Ejecutar la demostración
 
-Se requiere Python 3 y no se necesitan dependencias externas:
+Se requiere Python 3. No se necesitan dependencias externas. Desde la carpeta
+del proyecto (`FASE-4`), ejecuta:
 
 ```bash
 python3 main.py
@@ -52,6 +60,8 @@ y se escriben en `logs.txt`.
 
 ## Ejecutar las pruebas
 
+Desde la carpeta del proyecto (`FASE-4`), ejecuta:
+
 ```bash
 python3 -m unittest discover -s tests -v
 ```
@@ -60,3 +70,9 @@ Las pruebas comprueban las validaciones de los servicios, las variantes de
 cálculo, la asociación de reservas al cliente, las transiciones de estado, los
 errores recuperables y la ejecución de más de diez operaciones en la
 demostración.
+
+## Uso de inteligencia artificial
+
+Se utilizó inteligencia artificial como apoyo para la corrección de errores y
+la documentación del código. El equipo revisó e integró los cambios y es
+responsable del contenido y del funcionamiento del proyecto.
