@@ -3,6 +3,7 @@ import contextlib
 import io
 import math
 import unittest
+from unittest.mock import patch
 
 from cliente import Cliente
 from excepciones import (
@@ -13,7 +14,7 @@ from excepciones import (
     ServicioInvalidoError,
     ServicioNoDisponibleError,
 )
-from main import main
+from main import ejecutar_demostracion, main
 from reserva import EstadoReserva, Reserva
 from servicios import AlquilerEquipo, Asesoria, ReservaSala, Servicio
 
@@ -197,21 +198,66 @@ class PruebasDeReservas(unittest.TestCase):
         self.assertEqual(reserva.estado, EstadoReserva.PENDIENTE)
 
 
-class PruebasDeSimulacion(unittest.TestCase):
-    """Comprueba que los errores de los ejemplos no detienen el programa."""
+class PruebasDeInterfaz(unittest.TestCase):
+    """Comprueba la interacción de terminal y la demostración opcional."""
 
     def test_simulacion_ejecuta_mas_de_diez_operaciones(self):
         """La demostración sigue tras los registros y reservas inválidos."""
         salida = io.StringIO()
         with contextlib.redirect_stdout(salida):
-            operaciones = main()
+            operaciones = ejecutar_demostracion()
 
         texto = salida.getvalue()
         self.assertGreaterEqual(len(operaciones), 10)
-        self.assertIn("Simulación finalizada:", texto)
+        self.assertIn("Demostración finalizada:", texto)
         self.assertIn("[ERROR]", texto)
         self.assertIn("Intentar reservar servicio no disponible", texto)
         self.assertIn("Intentar reservar duración inválida", texto)
+
+    def test_menu_permite_registrar_y_listar_datos(self):
+        """La ejecución principal acepta opciones y datos introducidos."""
+        entradas = [
+            "1",
+            "Ana Pérez",
+            "12345678",
+            "ana@example.com",
+            "3001234567",
+            "2",
+            "1",
+            "Sala de reuniones",
+            "100",
+            "8",
+            "5",
+            "1",
+            "1",
+            "2",
+            "6",
+            "1",
+            "1",
+            "6",
+            "1",
+            "2",
+            "",
+            "",
+            "7",
+            "0",
+        ]
+        salida = io.StringIO()
+        with patch.object(Cliente, "_contador_id", 0):
+            with patch.object(Servicio, "_contador_id", 0):
+                with patch.object(Reserva, "_contador_id", 0):
+                    with patch("builtins.input", side_effect=entradas):
+                        with contextlib.redirect_stdout(salida):
+                            main()
+
+        texto = salida.getvalue()
+        self.assertIn("Ana Pérez", texto)
+        self.assertIn("Sala de reuniones", texto)
+        self.assertIn("Reserva #1", texto)
+        self.assertIn("Completada", texto)
+        self.assertIn("$238.0", texto)
+        self.assertIn("1. Registrar cliente", texto)
+        self.assertIn("Hasta pronto.", texto)
 
 
 if __name__ == "__main__":

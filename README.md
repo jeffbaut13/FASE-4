@@ -43,20 +43,43 @@ archivo `logs.txt` guarda los eventos y errores.
   Python no selecciona métodos por sobrecarga de firmas en tiempo de ejecución;
   esta interfaz ofrece las variantes solicitadas sin duplicar la fórmula.
 
-## Ejecutar la demostración
+## Ejecutar el sistema interactivo
 
-Se requiere Python 3. No se necesitan dependencias externas. Desde la carpeta
-del proyecto (`FASE-4`), ejecuta:
+Se requiere Python 3 y no se necesitan dependencias externas. Abre una
+terminal, entra en la carpeta del proyecto y ejecuta:
 
 ```bash
+cd FASE-4
 python3 main.py
 ```
 
-La demostración ejecuta 15 operaciones válidas e inválidas: registra un
-cliente correcto e intenta registrar datos incorrectos; crea servicios
-correctos e incorrectos; crea, confirma, procesa y cancela reservas; e intenta
-operaciones que deben rechazarse. Los errores esperados se informan en pantalla
-y se escriben en `logs.txt`.
+Si ya estás dentro de `FASE-4`, ejecuta directamente `python3 main.py`. El
+programa mostrará el menú y esperará que escribas el número de una opción en la
+terminal. Después de cada acción volverá al menú:
+
+| Opción | Acción |
+| --- | --- |
+| `1` | Registrar cliente: ingresa nombre, documento, correo y teléfono cuando se soliciten. |
+| `2` | Registrar servicio: elige sala, alquiler de equipo o asesoría y completa los datos solicitados. |
+| `3` | Mostrar los clientes registrados y sus identificadores. |
+| `4` | Mostrar los servicios registrados y sus identificadores. |
+| `5` | Crear reserva: elige el ID de un cliente, el ID de un servicio y la duración en horas. |
+| `6` | Gestionar una reserva: indica su ID y luego confirma, procesa o cancela. |
+| `7` | Mostrar las reservas y su estado actual. |
+| `8` | Ejecutar la demostración automática de 15 operaciones de ejemplo. |
+| `0` | Salir del programa. |
+
+Para completar una reserva, primero créala con la opción `5`, confírmala con
+`6` → `1` y luego procésala con `6` → `2`. Al procesarla puedes presionar
+`Enter` para usar el impuesto predeterminado (19 %) y el descuento
+predeterminado (0 %). Si ingresas valores, hazlo como proporciones: por ejemplo,
+`0.19` equivale a 19 % y `0.10` equivale a 10 %. Solo se pueden procesar
+reservas confirmadas; las opciones inválidas o los datos incorrectos muestran
+un error y el menú permite continuar.
+
+Los clientes, servicios y reservas se conservan únicamente mientras el
+programa está abierto; al salir se pierden. Los eventos y errores quedan
+registrados en `logs.txt`.
 
 ## Ejecutar las pruebas
 
@@ -67,9 +90,8 @@ python3 -m unittest discover -s tests -v
 ```
 
 Las pruebas comprueban las validaciones de los servicios, las variantes de
-cálculo, la asociación de reservas al cliente, las transiciones de estado, los
-errores recuperables y la ejecución de más de diez operaciones en la
-demostración.
+cálculo, la asociación de reservas al cliente, las transiciones de estado, la
+interacción con el menú y la demostración de más de diez operaciones.
 
 ## Uso de inteligencia artificial
 
